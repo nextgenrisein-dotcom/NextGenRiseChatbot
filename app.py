@@ -79,6 +79,62 @@ h1{
 # -----------------------------
 
 with st.sidebar:
+    # ==========================
+# ADMIN PANEL
+# ==========================
+
+    st.sidebar.markdown("---")
+    st.sidebar.header("Admin Panel")
+
+admin_password = st.sidebar.text_input(
+    "Enter Admin Password",
+    type="password"
+)
+
+# Change this password
+ADMIN_PASSWORD = "NextGen@2026"
+
+
+if admin_password == ADMIN_PASSWORD:
+
+    st.sidebar.success("Admin access granted")
+
+    uploaded_file = st.sidebar.file_uploader(
+        "Upload New PDF",
+        type=["pdf"]
+    )
+
+    if uploaded_file:
+
+        import os
+
+        os.makedirs("data", exist_ok=True)
+
+        file_path = os.path.join(
+            "data",
+            uploaded_file.name
+        )
+
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+
+
+        st.sidebar.success(
+            f"Saved: {uploaded_file.name}"
+        )
+
+
+        st.sidebar.info(
+            "PDF uploaded successfully. "
+            "Rebuild the knowledge base to make the chatbot learn it."
+        )
+
+
+elif admin_password:
+
+    st.sidebar.error(
+        "Incorrect password"
+    )
 
     logo = Path("images/logo.png")
 
@@ -99,49 +155,42 @@ st.sidebar.metric(
     "Knowledge Base",
     f"{len(pdfs)} PDFs"
 )
-uploaded = st.file_uploader(
-    "Upload PDF",
-    type="pdf"
+
+st.markdown(
+    """
+    <div style="
+        font-family: 'Times New Roman', serif;
+        font-size: 18px;
+        line-height: 1.3;
+    ">
+
+    <b style="color:#0B3D91; font-size:22px;">
+    Welcome to the NextGen Rise Academy AI Assistant
+    </b>
+
+    <p>
+    Your intelligent learning companion designed to provide information about:
+    </p>
+
+    <b style="color:#008000;">• Courses</b> - Available training programs and learning pathways.<br>
+
+    <b style="color:#D2691E;">• Admissions</b> - Enrollment process and requirements.<br>
+
+    <b style="color:#8B008B;">• Fees</b> - Course costs and payment details.<br>
+
+    <b style="color:#006400;">• Training</b> - Skills development programs and opportunities.<br>
+
+    <b style="color:#B22222;">• Certifications</b> - Professional certification pathways.<br>
+
+    <b style="color:#1E90FF;">• NextGen Rise Initiative</b> - Building skills, creating opportunities, and inspiring growth.
+
+    </div>
+    """,
+    unsafe_allow_html=True
 )
+st.markdown("---")
 
-if uploaded:
-
-    with open(
-        f"data/{uploaded.name}",
-        "wb"
-    ) as f:
-
-        f.write(uploaded.getbuffer())
-
-    st.success("PDF uploaded!")
-
-    st.info(
-        "Delete vector_db and restart once to rebuild."
-    )
-
-    st.write(
-        """
-        Welcome to the NextGen Rise Academy AI Assistant.
-
-        Ask anything about:
-
-        • Courses
-
-        • Admissions
-
-        • Fees
-
-        • Training
-
-        • Certifications
-
-        • NextGen Rise Initiative
-        """
-    )
-
-    st.markdown("---")
-
-    if st.button("Clear Chat"):
+if st.button("Clear Chat"):
         st.session_state.messages = []
         st.rerun()
 
