@@ -246,14 +246,16 @@ if prompt:
 st.markdown("---")
 
 st.markdown("""
-### NextGen Rise Academy AI
+---
+<div style="text-align:center; font-family:Roboto;">
 
-Powered by
+<h4>NextGen Rise Academy AI</h4>
 
-- Groq
-- Llama 3.3
-- LangChain
-- FAISS
-
+<p>
+Powered by <b>NextGen Rise Initiative</b><br>
+Building Skills • Creating Opportunities • Inspiring Growth<br><br>
 © 2026 NextGen Rise Initiative
-""")
+</p>
+
+</div>
+""", unsafe_allow_html=True)
